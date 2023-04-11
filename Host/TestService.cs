@@ -1,20 +1,18 @@
 using Microsoft.Extensions.Options;
 
-namespace MakoCo.Predator
+namespace MakoSystems.Sovienation.Host;
+public class TestService
 {
-    public class TestService
+    private readonly TestOptions _options;
+    public TestService(
+        IOptions<TestOptions> options)
     {
-        private readonly TestOptions _options;
-        public TestService(
-            IOptions<TestOptions> options)
-        {
-            _options = options.Value;
-        }
+        _options = options.Value;
+    }
 
-        public void TestValues()
-        {
-            Console.WriteLine($"TestOptions.Enabled={_options.Enabled}");
-            Console.WriteLine($"TestOptions.AutoRetryDelay={_options.AutoRetryDelay}");
-        }
+    public void TestValues()
+    {
+        Console.WriteLine($"TestOptions.Enabled={_options.Enabled}");
+        Console.WriteLine($"TestOptions.AutoRetryDelay={_options.AutoRetryDelay}");
     }
 }

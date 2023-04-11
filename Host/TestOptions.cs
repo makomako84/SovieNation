@@ -1,11 +1,8 @@
 // https://learn.microsoft.com/en-us/dotnet/core/extensions/options
 
-namespace MakoCo.Predator
+namespace MakoSystems.Sovienation.Host;
+public class TestOptions
 {
-
-    public sealed class TestOptions
-    {
-        public bool Enabled { get; set; }
-        public TimeSpan AutoRetryDelay { get; set; }
-    }
+    public bool Enabled { get; set; }
+    public TimeSpan AutoRetryDelay { get; set; }
 }
