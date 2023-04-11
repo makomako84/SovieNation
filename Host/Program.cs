@@ -7,6 +7,7 @@ using MakoSystems.Sovienation.Application;
 using MakoSystems.Sovienation.Host;
 using MakoSystems.Sovienation.GameCore;
 using MakoSystems.Sovienation.Persist;
+using MakoSystems.Sovienation.DTO;
 
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration(config => 
@@ -29,15 +30,32 @@ using var host = Host.CreateDefaultBuilder(args)
 
         // .. optional services here ..
         services.AddTransient<TestService>(); 
-        services.AddSingleton<RoomBackupWorker>();
+
+        // core services
         services.AddSingleton<IRoomSlice, RoomPool>();
+
+        // persistence services
         services.AddSingleton<IRoomRepository, RoomRepository>();
+
+        // application services services
+        services.AddSingleton<RoomBackupWorker>();
     })
     .Build();
 
 // .. test service here ...
 // var testService = host.Services.GetRequiredService<TestService>();
 // testService.TestValues();
+
+// Test initialize
+List<RoomDto> rooms = new List<RoomDto>();
+rooms.Add(new RoomDto()
+{
+    Health = 100,
+    RoomLevel = 0
+});
+
+var roomSlice = host.Services.GetRequiredService<IRoomSlice>();
+roomSlice.Load(rooms);
 
 var backupService = host.Services.GetRequiredService<RoomBackupWorker>();
 backupService.Backup();

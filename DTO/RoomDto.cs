@@ -4,5 +4,5 @@ namespace MakoSystems.Sovienation.DTO;
 public class RoomDto
 {
     public Int32 Health { get; set; }
-    public Int32 RoomLevel { get; set; }
+    public Byte RoomLevel { get; set; }
 }

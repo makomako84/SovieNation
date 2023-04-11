@@ -1,53 +1,6 @@
 using MakoSystems.Sovienation.DTO;
 
 namespace MakoSystems.Sovienation.GameCore;
-
-
-internal enum RoomType
-{
-	Entry,
-	PowerProduction,
-	FoodProduction
-}
-
-internal enum RoomLevel : byte
-{
-	Level1 = 0,
-	Level2 = 1,
-	Level3 = 2
-}
-
-internal struct LevelOutcomeRate
-{
-	private float _outcomeRate = 1.0f;
-
-
-	public LevelOutcomeRate()
-	{
-	}
-
-	public float OutcomeRate { get => _outcomeRate; }
-
-	public void SetOutcomeRate(RoomLevel roomLevel)
-	{
-		switch(roomLevel)
-		{
-			case RoomLevel.Level1:
-				_outcomeRate = 1.1f;
-				break;
-			case RoomLevel.Level2:
-				_outcomeRate = 1.2f;
-				break;
-			case RoomLevel.Level3:
-				_outcomeRate = 1.3f;
-				break;
-			default:
-				_outcomeRate = 1.0f;
-				break;
-		}
-	}
-}
-
 internal class Room
 {
 	private readonly RoomType _roomType;
@@ -60,10 +13,16 @@ internal class Room
 	private bool _isActive;
 	private Character _attachedCharacter;
 
-	public Room(RoomType roomType)
+	internal Room(RoomType roomType)
 	{
 		_levelOutcomeRate = new LevelOutcomeRate();
 	}
+	internal Room(Int32 health, byte level)
+	{
+		_health = health;
+		_level = (RoomLevel)level;
+	}
+
 
 	// Public API
 	// ...
@@ -116,4 +75,9 @@ internal class Room
             RoomLevel = (byte)this._level
         };
     }
+
+	internal static Room FromDto(RoomDto dto)
+	{
+		return new Room(dto.Health, dto.RoomLevel);
+	} 
 }
