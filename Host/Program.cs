@@ -51,6 +51,8 @@ using var host = Host.CreateDefaultBuilder(args)
 var backupService = host.Services.GetRequiredService<RoomBackupWorker>();
 backupService.Backup();
 
+var testLaunch = new TestLaunch();
+testLaunch.LaunchGameSession();
 
 
 // decoment to set for await ...

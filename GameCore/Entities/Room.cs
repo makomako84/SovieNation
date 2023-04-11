@@ -3,22 +3,27 @@ using MakoSystems.Sovienation.DTO;
 namespace MakoSystems.Sovienation.GameCore;
 internal class Room
 {
-	private readonly RoomType _roomType;
 	private Int32 _health;
-	private Int32 _baseOutcome;
-	private Int32 _consumeValue;
-	private Int32 _currentOutcome;
+	private float _baseOutcome;
+	private float _consumeValue;
+	private float _currentOutcome;
 	private RoomLevel _level;
 	private LevelOutcomeRate _levelOutcomeRate;
 	private bool _isActive;
-	private Character _attachedCharacter;
+	private  Character _attachedCharacter;
 
-	internal Room(RoomType roomType)
+	private static readonly RoomGlobalConfiguration _conf;
+
+	static Room()
+	{
+		_conf = new RoomGlobalConfiguration();
+	}
+
+	internal Room(
+		Int32 health,
+	 	byte level)
 	{
 		_levelOutcomeRate = new LevelOutcomeRate();
-	}
-	internal Room(Int32 health, byte level)
-	{
 		_health = health;
 		_level = (RoomLevel)level;
 	}
@@ -29,7 +34,11 @@ internal class Room
 	internal Character Character
 	{
 		get => _attachedCharacter;
-		set => _attachedCharacter = value;
+		set
+		{
+			_attachedCharacter = value;
+			NotifyCharacterAttached();
+		}
 	}
 
 	internal Int32 Health { get => _health; }
@@ -54,30 +63,13 @@ internal class Room
 		_levelOutcomeRate.SetOutcomeRate(_level);
 	}
 
-
-	private Int32 GetCharacterOutcome()
-	{
-		return 0;
-	}
 	private Int32 GetCurrentOutcome()
 	{
 		
 		return (Int32)((byte)_level * _levelOutcomeRate.OutcomeRate);
 	}
-
-	internal RoomDto ToDto()
-    {
-		// Происходит копирование памяти в ManagedHeap - Не самая лучшая ситуация конечно же
-		// Может можно как-то вызвать очистку в ручную? После завершения операции
-        return new RoomDto() 
-        { 
-            Health = this._health,
-            RoomLevel = (byte)this._level
-        };
-    }
-
-	internal static Room FromDto(RoomDto dto)
+	private void NotifyCharacterAttached()
 	{
-		return new Room(dto.Health, dto.RoomLevel);
-	} 
+
+	}
 }

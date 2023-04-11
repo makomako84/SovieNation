@@ -8,4 +8,9 @@ internal class CharacterPool
     {
 
     }
+
+    internal void Load(List<Character> characters)
+    {
+        _characters = characters;
+    }
 }

@@ -7,12 +7,11 @@ namespace MakoSystems.Sovienation.GameCore;
 /// </summary>
 public class SessionCommandUnit : ISessionCommands
 {
-    private CharacterPool _loadedRooms { get; set; }
-    private RoomPool _loadedCharacters { get; set; }
+    private Session _session;
 
-    internal SessionCommandUnit()
+    internal SessionCommandUnit(Session session)
     {
-
+        _session = session;
     }
 
     public void RoomIncreaseLevel(int roomId)
