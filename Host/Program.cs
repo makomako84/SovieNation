@@ -32,7 +32,7 @@ using var host = Host.CreateDefaultBuilder(args)
         services.AddTransient<TestService>(); 
 
         // core services
-        services.AddSingleton<IRoomSlice, RoomPool>();
+        
 
         // persistence services
         services.AddSingleton<IRoomRepository, RoomRepository>();
@@ -47,15 +47,6 @@ using var host = Host.CreateDefaultBuilder(args)
 // testService.TestValues();
 
 // Test initialize
-List<RoomDto> rooms = new List<RoomDto>();
-rooms.Add(new RoomDto()
-{
-    Health = 100,
-    RoomLevel = 0
-});
-
-var roomSlice = host.Services.GetRequiredService<IRoomSlice>();
-roomSlice.Load(rooms);
 
 var backupService = host.Services.GetRequiredService<RoomBackupWorker>();
 backupService.Backup();

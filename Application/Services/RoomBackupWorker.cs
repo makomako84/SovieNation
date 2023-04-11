@@ -6,19 +6,23 @@ namespace MakoSystems.Sovienation.Application;
 public class RoomBackupWorker
 {
     private readonly IRoomRepository _roomRepository;
-    private readonly IRoomSlice _roomSlice;
+    private readonly ISessionPersist _sessionPersistUnit;
     public RoomBackupWorker(
         IRoomRepository roomRepository,
-        IRoomSlice roomSlice)
+        ISessionPersist sessionPersistUnit)
     {
         _roomRepository = roomRepository;
-        _roomSlice = roomSlice;
+
+        _sessionPersistUnit = sessionPersistUnit;
+        
     }
 
     public void Backup()
     {
         System.Console.WriteLine("Call backup");
-        List<RoomDto> rooms =  _roomSlice.GetSlice();
+        var rooms = _sessionPersistUnit.GetRoomSlice();
+        var characters = _sessionPersistUnit.GetCharacterSlice();
+
         _roomRepository.Update(rooms);
     }
 }

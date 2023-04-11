@@ -26,7 +26,7 @@ internal class Room
 
 	// Public API
 	// ...
-	public Character Character
+	internal Character Character
 	{
 		get => _attachedCharacter;
 		set => _attachedCharacter = value;
@@ -36,19 +36,19 @@ internal class Room
 	internal byte RoomLevel { get => (byte)_level; }
 	
 	// called every time slice from GameCore Thread
-	public void UpdateOutcome()
+	internal void UpdateOutcome()
 	{
 		_currentOutcome = _baseOutcome - _consumeValue;
 	}
 
 	// called every time from user input (user-input => TCP-message API => internal API => IncreaseLevel)
 	// при условии, что сопутствующие условия для Increase выполнены (т.е. должен быть респонз)
-	public void IncreaseLevel()
+	internal void IncreaseLevel()
 	{
 		_level++;
 		_levelOutcomeRate.SetOutcomeRate(_level);
 	}
-	public void DecreaseLevel()
+	internal void DecreaseLevel()
 	{
 		_level--;
 		_levelOutcomeRate.SetOutcomeRate(_level);
@@ -65,7 +65,7 @@ internal class Room
 		return (Int32)((byte)_level * _levelOutcomeRate.OutcomeRate);
 	}
 
-	public RoomDto ToDto()
+	internal RoomDto ToDto()
     {
 		// Происходит копирование памяти в ManagedHeap - Не самая лучшая ситуация конечно же
 		// Может можно как-то вызвать очистку в ручную? После завершения операции
