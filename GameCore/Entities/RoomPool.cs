@@ -11,6 +11,11 @@ internal class RoomPool
 
     }
 
+    internal void Add(Int32 buildCellId)
+    {
+        _rooms.Add(new Room());
+    }
+
     internal void Load(List<Room> rooms)
     {
         _rooms = rooms;
