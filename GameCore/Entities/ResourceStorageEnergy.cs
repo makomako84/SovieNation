@@ -14,14 +14,14 @@ internal class ResourceStorageEnergy  : ResourceStorage
 
     internal override void GiveResource(ResourceAbstract resource)
     {
-        ResourceEnergy energyResource = resource as ResourceEnergy();
+        ResourceEnergy energyResource = resource as ResourceEnergy;
 
         _currentEnergy += energyResource.Energy;
     }
 
     internal override void TakeResource(ResourceAbstract resource)
     {
-        ResourceEnergy energyResource = resource as ResourceEnergy();
+        ResourceEnergy energyResource = resource as ResourceEnergy;
 
         _currentEnergy -= energyResource.Energy;
     }

@@ -14,12 +14,7 @@ public class SessionCommandUnit : ISessionCommands
         _session = session;
     }
 
-    public void RoomIncreaseLevel(int roomId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void RoomDecreaseLevel(int roomId)
+    public void RoomBuild(int buildAreaCellId)
     {
         throw new NotImplementedException();
     }
@@ -48,7 +43,4 @@ public class SessionCommandUnit : ISessionCommands
     {
         throw new NotImplementedException();
     }
-
-
-
 }

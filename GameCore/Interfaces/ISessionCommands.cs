@@ -2,8 +2,7 @@ namespace MakoSystems.Sovienation.GameCore;
 
 public interface ISessionCommands
 {
-    public void RoomIncreaseLevel(Int32 roomId);
-    public void RoomDecreaseLevel(Int32 roomId);
+    public void RoomBuild(Int32 buildAreaCellId);
     public void RoomDestroy(Int32 roomId);
     public void CharacterAttach(Int32 characterId, Int32 roomId);
     public void CharacterDettach(Int32 characterId);

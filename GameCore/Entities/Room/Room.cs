@@ -4,8 +4,9 @@ internal class Room
 {
     // service
 	private Int32 _id;
+    private Int32 _buildCellId;
 	private Int32 _name;
-    private Bool _isActive;
+    private Boolean _isActive;
 
 	private Int32 _currentHealth;
     private Int32 _maximumHealth;
@@ -13,6 +14,16 @@ internal class Room
     
 	private Character[] _attachedCharacters;
     private ResourceStorage _resourceStorage;
+
+    internal Room(Int32 buildCellId)
+    {
+        _buildCellId = buildCellId;
+    }
+
+    internal Int32 BuildCellId
+    {
+        get => _buildCellId;
+    }
 
     internal void LevelUpRoom() {}
     

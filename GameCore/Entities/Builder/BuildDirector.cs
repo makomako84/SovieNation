@@ -2,12 +2,12 @@ namespace MakoSystems.Sovienation.GameCore;
 
 internal class BuildDirector
 {
-    private BuildMatrix _buildMatrix;
-    private RoomPool _roomPool;
+    private IMatrixBuilder _buildMatrix;
+    private IRoomPool _roomPool;
 
     internal BuildDirector(
-        BuildMatrix matrix,
-        RoomPool roomPool)
+        IMatrixBuilder matrix,
+        IRoomPool roomPool)
     {
         _buildMatrix = matrix;
         _roomPool = roomPool;
@@ -15,14 +15,20 @@ internal class BuildDirector
 
     internal bool BuildRoom(Int32 buildAreaCellId)
     {
+        Int32 tempRoomId = _roomPool.AddTemp(buildAreaCellId);
         // Реквест на строительство в выбранной клетке
         // Если клетка не занята и существует, то можно строить
-        var buildCell = _buildMatrix.BuildRequest(buildAreaCellId);
+        var buildCell = _buildMatrix.BuildRequest(
+            buildAreaCellId, 
+            tempRoomId);
+
         if(buildCell != null)
         {
             // можно размещать Room
+            _roomPool.Aprove();
             return true;
         }
+        _roomPool.RemoveTemp();
         return false;
     }
 }

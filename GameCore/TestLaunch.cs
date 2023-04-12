@@ -11,13 +11,8 @@ public class TestLaunch
         {
             new Character("John", 100)
         };
-        var rooms = new List<Room>()
-        {
-            new Room(50, 0)
-        };
 
         _gameSession.LoadCharacters(characters);
-        _gameSession.LoadRooms(rooms);
     }
 
     public void LaunchGameSession()

@@ -2,12 +2,19 @@ namespace MakoSystems.Sovienation.GameCore;
 
 internal class Session
 {
-    private RoomPool _loadedRooms { get; set; }
-    private CharacterPool _loadedCharacters { get; set; }
+    private IRoomPool _loadedRooms;
+    private CharacterPool _loadedCharacters;
+    private CellMatrix _cellMatrix;
     
     internal Session()
     {
 
+    }
+
+    internal void LoadCells(CellCoords[] coords)
+    {
+        _cellMatrix = new CellMatrix();
+        _cellMatrix.Load(coords);
     }
 
     internal void LoadRooms(List<Room> rooms)

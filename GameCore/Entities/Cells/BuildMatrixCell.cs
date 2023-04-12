@@ -2,8 +2,7 @@ namespace MakoSystems.Sovienation.GameCore;
 
 internal class BuildMatrixCell
 {
-    private Int32 _x;
-    private Int32 _y;
+    CellCoords _cellCoords;
 
     private Int32 _attachedRoomId;
 
@@ -12,13 +11,11 @@ internal class BuildMatrixCell
 
     internal BuildMatrixCell(Int32 x, Int32 y)
     {
-        _x = x;
-        _y = y;
+        _cellCoords = new CellCoords(x, y);
         _idCounter++;
         _id = _idCounter;
         _attachedRoomId = 0;
     }
-
     internal Int32 AttachedRoomId
     {
         get => _attachedRoomId;
