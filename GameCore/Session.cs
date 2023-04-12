@@ -4,29 +4,20 @@ internal class Session
 {
     private IRoomPool _loadedRooms;
     private CharacterPool _loadedCharacters;
-    private Cells _cellMatrix;
+    private readonly Frame _frame;
     
     internal Session()
     {
+        var frameSource = new List<FrameItem>();
 
-    }
+        // special frame item for Entry block
+        frameSource.Add(new FrameItem(-1, 0)); 
 
-    internal void LoadCells(Coord[] coords)
-    {
-        _cellMatrix = new Cells();
-        _cellMatrix.Load(coords);
-    }
-
-    internal void LoadRooms(List<Room> rooms)
-    {
-        _loadedRooms = new RoomPool();
-        _loadedRooms.Load(rooms);
-    }
-
-    internal void LoadCharacters(List<Character> characters)
-    {
-        _loadedCharacters = new CharacterPool();
-        _loadedCharacters.Load(characters);
+        // common frame items
+        frameSource.Add(new FrameItem(0, 0));
+        frameSource.Add(new FrameItem(1, 0));
+        frameSource.Add(new FrameItem(0, 0));
+        frameSource.Add(new FrameItem(1, 0));
     }
 
 }
