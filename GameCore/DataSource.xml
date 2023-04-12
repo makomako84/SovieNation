@@ -1,0 +1,24 @@
+<DataSource>
+    <RoomCollection>
+        <Room>
+            <Type>Entry</Type>
+            <Cell x=-1, y=-1></Cell>
+        </Room>
+        <Room>
+            <Type>Energy</Type>
+            <Cell x=0, y=0></Cell>
+        </Room>
+        <Room>
+            <Type>Energy</Type>
+            <Character Id=1></Character>
+            <Cell x=1, y=1></Cell>
+            <Cell x=2, y=1></Cell>
+        </Room>
+    </RoomCollection>
+    <CharacterCollection>
+        <Character>
+            <Id>1</Id>
+            <Name>Boris</Name>
+        </Character>
+    </CharacterCollection>
+</DataSource>
