@@ -4,16 +4,16 @@ internal class Session
 {
     private IRoomPool _loadedRooms;
     private CharacterPool _loadedCharacters;
-    private CellMatrix _cellMatrix;
+    private Cells _cellMatrix;
     
     internal Session()
     {
 
     }
 
-    internal void LoadCells(CellCoords[] coords)
+    internal void LoadCells(Coord[] coords)
     {
-        _cellMatrix = new CellMatrix();
+        _cellMatrix = new Cells();
         _cellMatrix.Load(coords);
     }
 

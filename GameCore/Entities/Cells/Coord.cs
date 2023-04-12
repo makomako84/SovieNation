@@ -1,11 +1,11 @@
 namespace MakoSystems.Sovienation.GameCore;
 
-internal struct CellCoords
+internal struct Coord
 {
     private int _x;
     private int _y;
 
-    internal CellCoords(int x, int y)
+    internal Coord(int x, int y)
     {
         _x = x;
         _y = y;

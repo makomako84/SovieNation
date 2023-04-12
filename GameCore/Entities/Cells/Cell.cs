@@ -1,17 +1,15 @@
 namespace MakoSystems.Sovienation.GameCore;
 
-internal class BuildMatrixCell
+internal class Cell
 {
-    CellCoords _cellCoords;
-
-    private Int32 _attachedRoomId;
-
     private Int32 _id;
+    Coord _coords;
+    private Int32 _attachedRoomId;
     private static Int32 _idCounter = 0;
 
-    internal BuildMatrixCell(Int32 x, Int32 y)
+    internal Cell(Int32 x, Int32 y)
     {
-        _cellCoords = new CellCoords(x, y);
+        _coords = new Coord(x, y);
         _idCounter++;
         _id = _idCounter;
         _attachedRoomId = 0;

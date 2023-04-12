@@ -12,11 +12,11 @@ public class TestLaunch
             new Character("John", 100)
         };
 
-        List<CellCoords> cellCords = new List<CellCoords>()
+        List<Coord> cellCords = new List<Coord>()
         {
-            new CellCoords(0, 0),
-            new CellCoords(0, 1),
-            new CellCoords(0, 2)
+            new Coord(0, 0),
+            new Coord(0, 1),
+            new Coord(0, 2)
         };
 
         _gameSession.LoadCells(cellCords.ToArray());
