@@ -6,13 +6,18 @@ internal class Frame : IEnumerable<FrameItem>
 {
     private readonly string _frameName;
     // available building position cells
-    private readonly IList<FrameItem> _blocks;
+    private IList<FrameItem> _blocks;
 
-    internal Frame(IList<FrameItem> frameItems)
+    internal Frame()
     {
-        _blocks = frameItems;
+        _blocks = new List<FrameItem>();
         var rand = new Random();
         _frameName = "Frame" + rand.Next();
+    }
+
+    internal void Initialize(ref IList<FrameItem> items)
+    {
+        _blocks = items;
     }
 
     internal string FrameName => _frameName;

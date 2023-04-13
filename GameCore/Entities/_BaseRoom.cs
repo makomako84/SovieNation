@@ -5,26 +5,32 @@ internal abstract class BaseRoom
     // service
 	private int _id;
 	private string _name;
-    // should refer to the same items as in Session IList<BlockItem>
-    private LinkedList<FrameItem> _capturedFrameBlocks;
+    private Frame _frame;
+    private int _blockLength;
+    private int _level;
+    private int[] _blockX;
 
     private static int _globalMaxRoomLength = 3;
 
     internal BaseRoom(
         int id,
-        string name)
+        string name, int level, Frame frame)
     {
         _id = id;
         _name = name;
-        _capturedFrameBlocks = new LinkedList<FrameItem>();
+        _frame = frame;
+        _level = level;
+        _blockX = new int[_globalMaxRoomLength];
     }
+
+    internal int Id => _id;
 
     internal void ExtendRoom(FrameItem frameItem)
     {
-        if(_capturedFrameBlocks.Count < _globalMaxRoomLength)
+        if(_blockLength < _globalMaxRoomLength)
         {
-            _capturedFrameBlocks.AddLast(frameItem);
-            frameItem.Capture(this._id);
+            _blockLength++;
+            _frame.CaptureFrameItem(frameItem.X, frameItem.Level, this._id);
             RecalculateParameteres();
         }
         else
@@ -43,22 +49,19 @@ internal abstract class BaseRoom
     // и вызов нотификаций
     internal void DestroyRoom() 
     {
-        foreach(var item in _capturedFrameBlocks)
-            item.Free();
-
-        _capturedFrameBlocks = null;
+        
+        _blockLength = 0;
         _name = null;
         _id = -1;
     }
 
-    private String CapturedFramesToString() => string.Join(", ", _capturedFrameBlocks);
-    public override string ToString() => $"id: {_id}, name: {_name} capturedFrames: {CapturedFramesToString()}";
+    public override string ToString() => $"id: {_id}, name: {_name}";
 }
 
 internal class EnergyRoom : BaseRoom
 {
-    public EnergyRoom(int id, string name, IList<FrameItem> capturedBlocks) 
-        : base(id, name, capturedBlocks)
+    public EnergyRoom(int id, string name, int level, Frame frame) 
+        : base(id, name, level, frame)
     {
     }
 }

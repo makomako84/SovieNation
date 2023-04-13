@@ -10,9 +10,11 @@ internal class Session
 
     internal Session()
     {
-        var frameSource = new List<FrameItem>();
-        _frame = new Frame(frameSource);
+        
+        _frame = new Frame();
+        _roomContainer = new RoomContainer();
 
+        IList<FrameItem> frameSource = new List<FrameItem>();
         // special frame item for Entry block
         frameSource.Add(new FrameItem(-1, 0, _frame)); 
 
@@ -21,18 +23,20 @@ internal class Session
         frameSource.Add(new FrameItem(1, 0, _frame));
         frameSource.Add(new FrameItem(0, 1, _frame));
         frameSource.Add(new FrameItem(1, 1, _frame));
+        _frame.Initialize(ref frameSource);
 
         
-        var roomSource = new List<BaseRoom>();
-        roomSource.Add(new EnergyRoom(1, "Room1", new List<FrameItem>() {
-            _frame.Get(0, 0)
-        }));
-        roomSource.Add(new EnergyRoom(2, "Room2", new List<FrameItem>() {
-            _frame.Get(0, 1),
-            _frame.Get(1, 1)
-        }));
+        IList<BaseRoom> roomSource = new List<BaseRoom>();
+        roomSource.Add(new EnergyRoom(1, "Room1", 0, _frame));
+        roomSource.Add(new EnergyRoom(2, "Room2", 1, _frame));
+        
 
-        _roomContainer = new RoomContainer(roomSource);
+
+        _roomContainer.Initialize(ref roomSource);
+
+        _roomContainer.Get(1).ExtendRoom(_frame.Get(0,0));
+        _roomContainer.Get(1).ExtendRoom(_frame.Get(1,0));
+        
 
         Debug();
 
@@ -42,9 +46,6 @@ internal class Session
     {
         foreach(var frameItem in _frame)
         {
-            FrameItem* ptr = &frameItem;
-            IntPtr addr = (IntPtr)ptr;
-            System.Console.WriteLine(addr.ToString());
             System.Console.WriteLine(frameItem.ToString());
         }
 

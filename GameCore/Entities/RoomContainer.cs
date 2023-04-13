@@ -8,11 +8,22 @@ internal class RoomContainer : IEnumerable<BaseRoom>
     private IList<BaseRoom> _rooms;
     private BaseRoom _tempRoom;
 
-    internal RoomContainer(IList<BaseRoom> roomSource)
+    internal RoomContainer()
     {
-        _rooms = roomSource;
+        
     }
 
+    internal void Initialize(ref IList<BaseRoom> source)
+    {
+        _rooms = source;
+    }
+
+    internal BaseRoom Get(int id) => _rooms.First(r => r.Id == id);
+
+    internal void AttachRoom()
+    {
+
+    }
 
 
     Int32 AddTemp<T>(Int32 buildCellId) where T : BaseRoom

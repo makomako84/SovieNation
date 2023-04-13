@@ -15,7 +15,6 @@ internal struct FrameItem
         _id = rand.Next();
         _x = x;
         _level = level;
-        _occupiedBlockId = 0;
         _holdingFrame = holdingFrame;
         System.Console.WriteLine($"New frame item: {this.ToString()}");
     }
