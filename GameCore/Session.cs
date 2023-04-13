@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Collections;
 
 namespace MakoSystems.Sovienation.GameCore;
 
@@ -38,7 +39,24 @@ internal class Session
         _roomContainer.Get(1).ExtendRoom(_frame.Get(1,0));
         
 
-        Debug();
+        // Debug();
+
+        IDictionary oldDog = new Frame1(4, 2);
+        ((IFrame1)oldDog).Initialize();
+
+
+        // // now items (0, 0) & (1, 0) capture by 115
+        // oldDog[new FrameItem1(0, 0)] = 115;
+        // oldDog[new FrameItem1(1, 0)] = 115;
+
+        ((IFrame1)oldDog).SetItem(0, 0, 115);
+        ((IFrame1)oldDog).SetItem(1, 0, 115);
+
+        ((IFrame1)oldDog).SetItem(2, 1, 225);
+        ((IFrame1)oldDog).SetItem(3, 1, 225);
+
+        ((IFrame1)oldDog).Debug();
+        
 
     }
 
