@@ -6,25 +6,25 @@ internal abstract class BaseRoom
 	private int _id;
 	private string _name;
     // should refer to the same items as in Session IList<BlockItem>
-    private IList<BlockItem> _capturedBlocks;
+    private LinkedList<FrameItem> _capturedFrameBlocks;
 
     private static int _globalMaxRoomLength = 3;
 
     internal BaseRoom(
         int id,
-        string name,
-        IList<BlockItem> capturedBlocks)
+        string name)
     {
         _id = id;
         _name = name;
-        _capturedBlocks = capturedBlocks;
+        _capturedFrameBlocks = new LinkedList<FrameItem>();
     }
 
-    internal void ExtendRoom(BlockItem blockItem)
+    internal void ExtendRoom(FrameItem frameItem)
     {
-        if(_capturedBlocks.Count < _globalMaxRoomLength)
+        if(_capturedFrameBlocks.Count < _globalMaxRoomLength)
         {
-            _capturedBlocks.Add(blockItem);
+            _capturedFrameBlocks.AddLast(frameItem);
+            frameItem.Capture(this._id);
             RecalculateParameteres();
         }
         else
@@ -43,8 +43,22 @@ internal abstract class BaseRoom
     // и вызов нотификаций
     internal void DestroyRoom() 
     {
-        _capturedBlocks = null;
+        foreach(var item in _capturedFrameBlocks)
+            item.Free();
+
+        _capturedFrameBlocks = null;
         _name = null;
         _id = -1;
+    }
+
+    private String CapturedFramesToString() => string.Join(", ", _capturedFrameBlocks);
+    public override string ToString() => $"id: {_id}, name: {_name} capturedFrames: {CapturedFramesToString()}";
+}
+
+internal class EnergyRoom : BaseRoom
+{
+    public EnergyRoom(int id, string name, IList<FrameItem> capturedBlocks) 
+        : base(id, name, capturedBlocks)
+    {
     }
 }

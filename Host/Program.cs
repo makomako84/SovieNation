@@ -38,7 +38,7 @@ using var host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IRoomRepository, RoomRepository>();
 
         // application services services
-        services.AddSingleton<RoomBackupWorker>();
+        //services.AddSingleton<RoomBackupWorker>();
     })
     .Build();
 
@@ -48,8 +48,8 @@ using var host = Host.CreateDefaultBuilder(args)
 
 // Test initialize
 
-var backupService = host.Services.GetRequiredService<RoomBackupWorker>();
-backupService.Backup();
+// var backupService = host.Services.GetRequiredService<RoomBackupWorker>();
+// backupService.Backup();
 
 var testLaunch = new TestLaunch();
 testLaunch.LaunchGameSession();
