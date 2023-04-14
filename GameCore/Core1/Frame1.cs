@@ -2,17 +2,8 @@ using System.Collections;
 
 namespace MakoSystems.Sovienation.GameCore;
 
-internal interface IFrame1
-{
-    internal Int32 Length { get; }
-    internal Int32 Height { get; }
 
-    internal void Initialize();
-    internal void Debug();
-    internal void SetItem(int x, int y, int value);
-}
-
-internal class Frame1 : IDictionary, IFrame1
+internal class Frame1 : IDictionary
 {
     // The array of items
     private DictionaryEntry[] items;
@@ -21,8 +12,8 @@ internal class Frame1 : IDictionary, IFrame1
     private int _length;
     private int _height;
 
-    Int32 IFrame1.Length { get => _length; }
-    Int32 IFrame1.Height { get => _height; }
+    internal Int32 Length { get => _length; }
+    internal Int32 Height { get => _height; }
 
     // Construct the SimpleDictionary with the desired number of items.
     // The number of items cannot change for the life time of this SimpleDictionary.
@@ -33,7 +24,7 @@ internal class Frame1 : IDictionary, IFrame1
         items = new DictionaryEntry[length * height];
     }
 
-    void IFrame1.Initialize()
+    internal void Initialize()
     {
         int index = 0;
         for(int y=0; y < _height; y++)
@@ -46,7 +37,7 @@ internal class Frame1 : IDictionary, IFrame1
         }
     }
 
-    void IFrame1.Debug()
+    internal void Debug()
     {
         // output dictionary
         for(int y=0; y < _height; y++)
@@ -60,7 +51,7 @@ internal class Frame1 : IDictionary, IFrame1
         }
     }
 
-    void IFrame1.SetItem(int x, int y, int value)
+    internal void SetItem(int x, int y, int value)
     {
         this[new FrameItem1(x, y)] = value;
     }

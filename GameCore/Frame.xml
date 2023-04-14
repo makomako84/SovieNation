@@ -1,4 +1,4 @@
-<CellSkeleton>
+<Frame>
     <EntryCell></EntryCell>
     <Cell x=0, y=0></Cell>
     <Cell x=1, y=0></Cell>
@@ -8,4 +8,4 @@
     <Cell x=1, y=1></Cell>
     <Cell x=2, y=1></Cell>
     <Cell x=3, y=1></Cell>
-</CellSKeleton>
+</Frame>
