@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace MakoSystems.Sovienation.GameCore;
 
 
     /*
-        Get index calculation by x,y
+        FROM X,Y TO i
+
         0 1 2 3   | 0
         4 5 6 7   | 1
         - - - -     y
@@ -29,11 +33,24 @@ namespace MakoSystems.Sovienation.GameCore;
 
     */
 
+    /*
+        FROM i to X,Y
+        
+        i = 3 //(3,0)
+        x = i % width = 3
+        y = i / width = 0
+
+        i = 7 //(3,1)
+        x = i % width = 3
+        y = i / width = 1 
+    */
+
 internal class TestClient2
 {
     public TestClient2()
     {
-        var itemsSource = GetTestSource();
+        //var itemsSource = GetTestSource();
+        var itemsSource = LoadXml();
 
         // создаю решетку длины 4, высоты 2
         Frame2 frame2 = new Frame2(4,2);
@@ -45,7 +62,21 @@ internal class TestClient2
         iframe.Set(3,0, 255);
         iframe.Set(1,0, 55);
         DebugLogState(frame2);
+    }
 
+    private IEnumerable<FrameItem2> LoadXml()
+    {
+        var filename = "frame.xml";
+        var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var filePath = Path.Combine(currentDir, filename);
+
+        XElement frame = XElement.Load(filePath);
+        XDocument doc = XDocument.Load(filePath);
+        return doc.Root
+                .Elements("Item")
+                .Select(x => new FrameItem2(
+                    (int)x.Attribute("X"), (int)x.Attribute("Y")))
+                .ToArray();
     }
 
     private FrameItem2[] GetTestSource()
@@ -80,6 +111,8 @@ internal class Frame2 : IFrame2, IEnumerable
     private int _width, _height;
     private FrameItem2[] _frames;
 
+    public FrameItem2[] Frames => _frames;
+
     internal Frame2(int width, int height)
     {
         _width = width;
@@ -113,15 +146,6 @@ internal class Frame2 : IFrame2, IEnumerable
 
     void IFrame2.Initialize(IEnumerable source)
     {
-        /*
-            i = 3 //(3,0)
-            x = i % width = 3
-            y = i / width = 0
-
-            i = 7 //(3,1)
-            x = i % width = 3
-            y = i / width = 1 
-        */
         _frames = (FrameItem2[])source;
     }
 
@@ -164,7 +188,6 @@ internal struct FrameItem2
         Y = y;
         ObjectId = -1;
     }
-
     public int X { get; private set; }
     public int Y { get; private set; }
     public int ObjectId { get; set; }

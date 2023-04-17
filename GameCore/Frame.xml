@@ -1,11 +1,11 @@
+<?xml version="1.0"?>
 <Frame>
-    <EntryCell></EntryCell>
-    <Cell x=0, y=0></Cell>
-    <Cell x=1, y=0></Cell>
-    <Cell x=2, y=0></Cell>
-    <Cell x=3, y=0></Cell>
-    <Cell x=0, y=1></Cell>
-    <Cell x=1, y=1></Cell>
-    <Cell x=2, y=1></Cell>
-    <Cell x=3, y=1></Cell>
+    <Item X="0" Y ="0"></Item>
+    <Item X="1" Y ="0"></Item>
+    <Item X="2" Y ="0"></Item>
+    <Item X="3" Y ="0"></Item>
+    <Item X="0" Y ="1"></Item>
+    <Item X="1" Y ="1"></Item>
+    <Item X="2" Y ="1"></Item>
+    <Item X="3" Y ="1"></Item>
 </Frame>
