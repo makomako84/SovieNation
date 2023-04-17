@@ -11,9 +11,17 @@ internal class Session
 
     internal Session()
     {
-        
         _frame = new Frame();
         _roomContainer = new RoomContainer();
+
+        var test = new TestClient2();
+        
+
+    }
+
+    private void Test1()
+    {
+
 
         IList<FrameItem> frameSource = new List<FrameItem>();
         // special frame item for Entry block
@@ -56,8 +64,6 @@ internal class Session
         ((Frame1)oldDog).SetItem(3, 1, 225);
 
         ((Frame1)oldDog).Debug();
-        
-
     }
 
     private unsafe void Debug()
