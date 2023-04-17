@@ -50,12 +50,13 @@ internal class TestClient2
     public TestClient2()
     {
         //var itemsSource = GetTestSource();
-        var itemsSource = LoadXml();
+        XDocument doc = LoadXml();
+        IXmlInitilizeQuery<FrameItem2> itemSourceQuery = new FrameXmlInitializeQuery(doc);
 
         // создаю решетку длины 4, высоты 2
         Frame2 frame2 = new Frame2(4,2);
         IFrame2 iframe =(IFrame2)frame2;
-        iframe.Initialize(itemsSource);
+        iframe.Initialize(itemSourceQuery);
         DebugLogState(frame2);
 
         iframe.Set(0,0, 55);
@@ -64,19 +65,14 @@ internal class TestClient2
         DebugLogState(frame2);
     }
 
-    private IEnumerable<FrameItem2> LoadXml()
+    private XDocument LoadXml()
     {
         var filename = "frame.xml";
         var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var filePath = Path.Combine(currentDir, filename);
 
         XElement frame = XElement.Load(filePath);
-        XDocument doc = XDocument.Load(filePath);
-        return doc.Root
-                .Elements("Item")
-                .Select(x => new FrameItem2(
-                    (int)x.Attribute("X"), (int)x.Attribute("Y")))
-                .ToArray();
+        return XDocument.Load(filePath);
     }
 
     private FrameItem2[] GetTestSource()
@@ -148,6 +144,10 @@ internal class Frame2 : IFrame2, IEnumerable
     {
         _frames = (FrameItem2[])source;
     }
+    void IFrame2.Initialize(IXmlInitilizeQuery<FrameItem2> initializeQuery)
+    {
+        _frames = initializeQuery.Get();
+    }
 
     void InitTest()
     {
@@ -167,8 +167,28 @@ internal class Frame2 : IFrame2, IEnumerable
             System.Console.WriteLine($"i: {i}, x:{f.X}, y:{f.Y}, val: {f.ObjectId}");
         }
     }
+}
 
+interface IXmlInitilizeQuery<T>
+{
+    internal T[] Get();
+}
 
+internal class FrameXmlInitializeQuery : IXmlInitilizeQuery<FrameItem2>
+{
+    private XDocument _doc;
+    internal FrameXmlInitializeQuery(XDocument doc)
+    {
+        _doc = doc;
+    }
+    FrameItem2[] IXmlInitilizeQuery<FrameItem2>.Get()
+    {
+        return _doc.Root
+                .Elements("Item")
+                .Select(x => new FrameItem2(
+                    (int)x.Attribute("X"), (int)x.Attribute("Y")))
+                .ToArray();
+    }
 }
 
 internal interface IFrame2
@@ -176,6 +196,7 @@ internal interface IFrame2
     internal void Set(int x, int y, int value);
     internal FrameItem2 Get(int x, int y);
     internal void Initialize(IEnumerable source);
+    internal void Initialize(IXmlInitilizeQuery<FrameItem2> initializeQuery);
 }
 
 
