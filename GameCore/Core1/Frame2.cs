@@ -107,8 +107,6 @@ internal class Frame2 : IFrame2, IEnumerable
     private int _width, _height;
     private FrameItem2[] _frames;
 
-    public FrameItem2[] Frames => _frames;
-
     internal Frame2(int width, int height)
     {
         _width = width;
