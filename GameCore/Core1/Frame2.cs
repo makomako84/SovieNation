@@ -33,10 +33,12 @@ internal class TestClient2
 {
     public TestClient2()
     {
+        var itemsSource = GetTestSource();
+
         // создаю решетку длины 4, высоты 2
         Frame2 frame2 = new Frame2(4,2);
         IFrame2 iframe =(IFrame2)frame2;
-        iframe.Initialize(null);
+        iframe.Initialize(itemsSource);
         DebugLogState(frame2);
 
         iframe.Set(0,0, 55);
@@ -44,6 +46,19 @@ internal class TestClient2
         iframe.Set(1,0, 55);
         DebugLogState(frame2);
 
+    }
+
+    private FrameItem2[] GetTestSource()
+    {
+        var initSource = new FrameItem2[4 * 2];
+        for(int y=0; y < 2; y++)
+        {
+            for(int x=0; x < 4; x++)
+            {
+                initSource[Frame2.GetIndex(4,2,x,y)] = new FrameItem2(x, y);
+            }
+        }
+        return initSource;
     }
 
     private void DebugLogState(IEnumerable frame)
@@ -93,9 +108,25 @@ internal class Frame2 : IFrame2, IEnumerable
         return (y % _height) * _width + x % _width;
     }
 
-    void IFrame2.Initialize(IInitializationSource source)
+    internal static int GetIndex(int width, int height, int x, int y)
+        => (y % height) * width + x % width;
+
+    void IFrame2.Initialize(IEnumerable source)
     {
-        //var items = source.GetCollection();
+        /*
+            i = 3 //(3,0)
+            x = i % width = 3
+            y = i / width = 0
+
+            i = 7 //(3,1)
+            x = i % width = 3
+            y = i / width = 1 
+        */
+        _frames = (FrameItem2[])source;
+    }
+
+    void InitTest()
+    {
         for(int y=0; y < _height; y++)
         {
             for(int x=0; x < _width; x++)
@@ -104,7 +135,6 @@ internal class Frame2 : IFrame2, IEnumerable
             }
         }
     }
-
     void InternalDebug()
     {
         for(int i=0; i< _frames.Length; i++)
@@ -121,13 +151,9 @@ internal interface IFrame2
 {
     internal void Set(int x, int y, int value);
     internal FrameItem2 Get(int x, int y);
-    internal void Initialize(IInitializationSource source);
+    internal void Initialize(IEnumerable source);
 }
 
-internal interface IInitializationSource
-{
-    internal IEnumerable GetCollection();
-}
 
 
 internal struct FrameItem2
