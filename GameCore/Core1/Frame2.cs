@@ -51,16 +51,18 @@ internal class TestClient2
     {
         //var itemsSource = GetTestSource();
         XDocument doc = LoadXml();
-        IXmlInitilizeQuery<FrameItem2> itemSourceQuery = new FrameXmlInitializeQuery(doc);
+        IXmlInitilizeQuery<FrameItem2> itemSourceQuery = new FrameXmlInitializeQuery(doc);  // вариант загрузки из xml
 
         // создаю решетку длины 4, высоты 2
-        Frame2 frame2 = new Frame2(4,2);
+        Frame2 frame2 = new Frame2(64,64);
         IFrame2 iframe =(IFrame2)frame2;
-        iframe.Initialize(itemSourceQuery);
+        //iframe.Initialize(itemSourceQuery);
+        iframe.Intialize();
+        
         DebugLogState(frame2);
 
-        iframe.Set(0,0, 55);
-        iframe.Set(3,0, 255);
+        iframe.Set(63,63, 55);    // занять элемент фрейма объектом с id=55
+        iframe.Set(61,63, 255);   // занять элемент фрейма объектом с id=255
         iframe.Set(1,0, 55);
         DebugLogState(frame2);
     }
@@ -125,9 +127,9 @@ internal class Frame2 : IFrame2, IEnumerable
         return _frames[GetIndex(x,y)];
     }
 
-    void IFrame2.Set(int x, int y, int value)
+    void IFrame2.Set(int x, int y, int objectId)
     {
-        _frames[GetIndex(x,y)].ObjectId = value;
+        _frames[GetIndex(x,y)].ObjectId = objectId;
     }
 
     private int GetIndex(int x, int y)
@@ -145,6 +147,16 @@ internal class Frame2 : IFrame2, IEnumerable
     void IFrame2.Initialize(IXmlInitilizeQuery<FrameItem2> initializeQuery)
     {
         _frames = initializeQuery.Get();
+    }
+    void IFrame2.Intialize()
+    {
+        for(int x = 0; x < _width; x++)
+        {
+            for(int y =0; y < _height; y++)
+            {
+                _frames[GetIndex(x, y)] = new FrameItem2(x, y);
+            }
+        }
     }
 
     void InitTest()
@@ -165,6 +177,8 @@ internal class Frame2 : IFrame2, IEnumerable
             System.Console.WriteLine($"i: {i}, x:{f.X}, y:{f.Y}, val: {f.ObjectId}");
         }
     }
+
+
 }
 
 interface IXmlInitilizeQuery<T>
@@ -191,9 +205,12 @@ internal class FrameXmlInitializeQuery : IXmlInitilizeQuery<FrameItem2>
 
 internal interface IFrame2
 {
-    internal void Set(int x, int y, int value);
+    internal void Set(int x, int y, int objectId);
     internal FrameItem2 Get(int x, int y);
+    internal void Intialize();
+    [Obsolete]
     internal void Initialize(IEnumerable source);
+    [Obsolete]
     internal void Initialize(IXmlInitilizeQuery<FrameItem2> initializeQuery);
 }
 

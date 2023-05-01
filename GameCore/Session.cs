@@ -45,25 +45,6 @@ internal class Session
 
         _roomContainer.Get(1).ExtendRoom(_frame.Get(0,0));
         _roomContainer.Get(1).ExtendRoom(_frame.Get(1,0));
-        
-
-        // Debug();
-
-        IDictionary oldDog = new Frame1(4, 2);
-        ((Frame1)oldDog).Initialize();
-
-
-        // // now items (0, 0) & (1, 0) capture by 115
-        // oldDog[new FrameItem1(0, 0)] = 115;
-        // oldDog[new FrameItem1(1, 0)] = 115;
-
-        ((Frame1)oldDog).SetItem(0, 0, 115);
-        ((Frame1)oldDog).SetItem(1, 0, 115);
-
-        ((Frame1)oldDog).SetItem(2, 1, 225);
-        ((Frame1)oldDog).SetItem(3, 1, 225);
-
-        ((Frame1)oldDog).Debug();
     }
 
     private unsafe void Debug()
