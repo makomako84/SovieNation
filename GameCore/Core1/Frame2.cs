@@ -54,15 +54,15 @@ internal class TestClient2
         IXmlInitilizeQuery<FrameItem2> itemSourceQuery = new FrameXmlInitializeQuery(doc);  // вариант загрузки из xml
 
         // создаю решетку длины 4, высоты 2
-        Frame2 frame2 = new Frame2(64,64);
+        Frame2 frame2 = new Frame2(5,5);
         IFrame2 iframe =(IFrame2)frame2;
         //iframe.Initialize(itemSourceQuery);
         iframe.Intialize();
         
         DebugLogState(frame2);
 
-        iframe.Set(63,63, 55);    // занять элемент фрейма объектом с id=55
-        iframe.Set(61,63, 255);   // занять элемент фрейма объектом с id=255
+        iframe.Set(4,4, 55);    // занять элемент фрейма объектом с id=55
+        iframe.Set(3,3, 255);   // занять элемент фрейма объектом с id=255
         iframe.Set(1,0, 55);
         DebugLogState(frame2);
     }
@@ -108,6 +108,7 @@ internal class Frame2 : IFrame2, IEnumerable
 {
     private int _width, _height;
     private FrameItem2[] _frames;
+    private const int _freeId = -1;
 
     internal Frame2(int width, int height)
     {
@@ -121,24 +122,36 @@ internal class Frame2 : IFrame2, IEnumerable
         return _frames.GetEnumerator();
     }
 
-
     FrameItem2 IFrame2.Get(int x, int y)
     {
         return _frames[GetIndex(x,y)];
     }
-
+    
     void IFrame2.Set(int x, int y, int objectId)
     {
         _frames[GetIndex(x,y)].ObjectId = objectId;
     }
-
-    private int GetIndex(int x, int y)
+    
+    void IFrame2.Set(int x, int y, int width, int height, int objectId)
     {
-        return (y % _height) * _width + x % _width;
+        for(int ix = x; ix < x+width; ix++)
+        {
+            for(int iy = x; iy < y+width; iy++)
+            {
+                _frames[GetIndex(ix, iy)].ObjectId = objectId;
+            }
+        }
+    }
+    
+    void IFrame2.Free(int x, int y)
+    {
+        ((IFrame2)this).Free(x,y);
     }
 
-    internal static int GetIndex(int width, int height, int x, int y)
-        => (y % height) * width + x % width;
+    void IFrame2.Free(int x, int y, int width, int height)
+    {
+        ((IFrame2)this).Free(x, y, width, height);
+    }
 
     void IFrame2.Initialize(IEnumerable source)
     {
@@ -154,10 +167,21 @@ internal class Frame2 : IFrame2, IEnumerable
         {
             for(int y =0; y < _height; y++)
             {
-                _frames[GetIndex(x, y)] = new FrameItem2(x, y);
+                _frames[GetIndex(x, y)] = new FrameItem2(x, y) {ObjectId = _freeId};
             }
         }
     }
+
+
+    internal static int GetIndex(int width, int height, int x, int y)
+        => (y % height) * width + x % width;
+
+    private int GetIndex(int x, int y)
+    {
+        return (y % _height) * _width + x % _width;
+    }
+
+
 
     void InitTest()
     {
@@ -176,9 +200,7 @@ internal class Frame2 : IFrame2, IEnumerable
             var f = _frames[i];
             System.Console.WriteLine($"i: {i}, x:{f.X}, y:{f.Y}, val: {f.ObjectId}");
         }
-    }
-
-
+    }    
 }
 
 interface IXmlInitilizeQuery<T>
@@ -206,6 +228,9 @@ internal class FrameXmlInitializeQuery : IXmlInitilizeQuery<FrameItem2>
 internal interface IFrame2
 {
     internal void Set(int x, int y, int objectId);
+    internal void Set(int x, int y, int width, int height, int objectId);
+    internal void Free(int x, int y);
+    internal void Free(int x, int y, int width, int height);
     internal FrameItem2 Get(int x, int y);
     internal void Intialize();
     [Obsolete]
