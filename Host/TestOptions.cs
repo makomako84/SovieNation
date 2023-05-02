@@ -6,3 +6,9 @@ public class TestOptions
     public bool Enabled { get; set; }
     public TimeSpan AutoRetryDelay { get; set; }
 }
+
+public sealed class TransientFaultHandlingOptions
+{
+    public bool Enabled { get; set; }
+    public TimeSpan AutoRetryDelay { get; set; }
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace MakoSystems.Sovienation.GameCore;
 
@@ -200,7 +201,27 @@ internal class Frame2 : IFrame2, IEnumerable
             var f = _frames[i];
             System.Console.WriteLine($"i: {i}, x:{f.X}, y:{f.Y}, val: {f.ObjectId}");
         }
-    }    
+    }
+
+    internal byte[] Serialize()
+    {
+        byte[] arr = new byte[Marshal.SizeOf(typeof(FrameItem2)) * _frames.Length];
+        GCHandle handle = GCHandle.Alloc(_frames, GCHandleType.Pinned);
+        try
+        {
+            IntPtr ptr = handle.AddrOfPinnedObject();
+            Marshal.Copy(ptr, arr, 0, arr.Length);
+        }
+        catch
+        {
+            System.Console.WriteLine("Exception when serialize");
+        }
+        finally
+        {
+            handle.Free();
+        }
+        return arr;
+    }
 }
 
 interface IXmlInitilizeQuery<T>
@@ -243,16 +264,23 @@ internal interface IFrame2
 
 internal struct FrameItem2
 { 
+    private int _x;
+    private int _y;
+    private int _objectId;
     internal FrameItem2(int x, int y)
     {
-        X = x;
-        Y = y;
-        ObjectId = -1;
+        _x = x;
+        _y = y;
+        _objectId = -1;
     }
-    public int X { get; private set; }
-    public int Y { get; private set; }
-    public int ObjectId { get; set; }
+    public int X { get => _x; }
+    public int Y { get => _y; }
+    public int ObjectId
+    {
+        get => _objectId;
+        set => _objectId = value;
+    }
 
     public override string ToString() =>
-        $"({X},{Y}):{ObjectId}";
+        $"({_x},{_y}):{_objectId}";
 }
