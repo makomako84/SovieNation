@@ -48,6 +48,7 @@ internal class TcpServer
             cancellationToken.ThrowIfCancellationRequested();
             using TcpClient client = await listener.AcceptTcpClientAsync();
             _logger.LogInformation("Client connected: {0}", client.Client.RemoteEndPoint);
+            var _ = SendAsync(client, cancellationToken);
         }
     }
 
