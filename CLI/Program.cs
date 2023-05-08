@@ -1,13 +1,21 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MakoSystems.NetworkTransfer;
+using MakoSystems.Sovienation.Mapper;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         var settings = context.Configuration;
+
+        MapperRegister.RegisterAutoMapper(services);
+
         services.Configure<ClientOptions>(settings.GetSection("Client"));
         services.AddTransient<Client>();
     })
@@ -66,9 +74,15 @@ class Client
                     await client.ConnectAsync(_hostname, _serverPort, cancellationToken);
                     using var stream = client.GetStream(); 
                     int bytesRead = await stream.ReadAsync(buffer, cancellationToken);
-                    string quote = Encoding.UTF8.GetString(buffer.Span[..bytesRead]);
-                    buffer.Span[..bytesRead].Clear();
-                    Console.WriteLine(quote);
+
+                    Frame frame = Frame.Parser.ParseFrom(buffer.ToArray(), 0, bytesRead);
+
+
+                    //string quote = Encoding.UTF8.GetString(buffer.Span[..bytesRead]);
+                    //buffer.Span[..bytesRead].Clear();
+
+
+                    Console.WriteLine(frame);
                     Console.WriteLine();
                 }
             };

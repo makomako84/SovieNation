@@ -28,10 +28,7 @@ public class Session
 
     }
 
-    public byte[] GetFrames()
-    {
-        return ((Frame2)_frame).Serialize();
-    }
+    public Frame2 GetFrames() => (Frame2)_frame;
 
     // private void Test1()
     // {

@@ -9,6 +9,8 @@ using MakoSystems.Sovienation.GameCore;
 using MakoSystems.Sovienation.Persist;
 using MakoSystems.Sovienation.DTO;
 using MakoSystems.Sovienation.Network;
+using AutoMapper;
+using MakoSystems.Sovienation.Mapper;
 
 using var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration(config => 
@@ -27,6 +29,8 @@ using var host = Host.CreateDefaultBuilder(args)
     {
         // .. get configuration
         IConfiguration config = context.Configuration;
+
+        MapperRegister.RegisterAutoMapper(services);
 
         // configure di here ...
         services.Configure<TestOptions>(config.GetSection(nameof(TestOptions)));

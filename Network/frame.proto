@@ -1,0 +1,17 @@
+syntax = "proto3";
+package networktransfer;
+
+option csharp_namespace = "MakoSystems.NetworkTransfer";
+
+message Frame {
+  int32 width = 1;
+  int32 height = 2;
+
+  message FrameItem {
+    int32 x = 1;
+    int32 y = 2;
+    int32 objectId = 3;
+  }
+
+  repeated FrameItem frames = 3;
+}

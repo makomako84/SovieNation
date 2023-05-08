@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MakoSystems.Sovienation.GameCore;
+using AutoMapper;
+using MakoSystems.NetworkTransfer;
+using Google.Protobuf;
 
 namespace MakoSystems.Sovienation.Network;
 
@@ -21,14 +24,17 @@ internal class TcpServer
     private readonly int _port;
     private readonly ILogger _logger;
     private Session _session;
-    
+    private readonly IMapper _mapper;
+
 
     public TcpServer(
         IOptions<TcpServerOptions> options,
-        ILogger<TcpServer> logger)
+        ILogger<TcpServer> logger,
+        IMapper mapper)
     {
         _port = options.Value.Port;
         _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task InitializeAsync()
@@ -59,11 +65,12 @@ internal class TcpServer
             client.LingerState = new LingerOption(true, 10);
             client.NoDelay = true;
 
-            using var stream = client.GetStream();
+            using NetworkStream stream = client.GetStream();
 
             // TODO: convert session data to bytes here.
-            var buffer = _session.GetFrames().AsMemory();
-
+            var frames = _session.GetFrames();
+            var frame = _mapper.Map<MakoSystems.NetworkTransfer.Frame>(frames);            
+            var buffer = frame.ToByteArray().AsMemory();
             await stream.WriteAsync(buffer, cancellationToken);
 
             
@@ -73,6 +80,10 @@ internal class TcpServer
             _logger.LogError(ex, ex.Message);
         }
         catch(SocketException ex)
+        {
+            _logger.LogError(ex, ex.Message);
+        }
+        catch(Exception ex)
         {
             _logger.LogError(ex, ex.Message);
         }

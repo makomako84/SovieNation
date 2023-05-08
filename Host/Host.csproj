@@ -4,6 +4,7 @@
     <ProjectReference Include="..\GameCore\GameCore.csproj" />
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Persist\Persist.csproj" />
+    <ProjectReference Include="..\network\NetworkTransfer.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -14,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Automapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />

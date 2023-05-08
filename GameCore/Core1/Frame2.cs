@@ -105,19 +105,23 @@ internal class TestClient2
     value get(x,y)
     initialize(source)
 */
-internal class Frame2 : IFrame2, IEnumerable
+public class Frame2 : IFrame2, IEnumerable
 {
     private int _width, _height;
     private FrameItem2[] _frames;
     private const int _freeId = -1;
 
-    internal Frame2(int width, int height)
+    public int Width => _width;
+    public int Height => _height;
+    public FrameItem2[] Frames => _frames;
+
+    public Frame2(int width, int height)
     {
         _width = width;
         _height = height;
         _frames = new FrameItem2[width * height];
     }
-    private Frame2(FrameItem2[] frames, int width, int height)
+    public Frame2(FrameItem2[] frames, int width, int height)
     {
         _frames = frames;
         _width = width;
@@ -208,83 +212,6 @@ internal class Frame2 : IFrame2, IEnumerable
             System.Console.WriteLine($"i: {i}, x:{f.X}, y:{f.Y}, val: {f.ObjectId}");
         }
     }
-
-    internal byte[] Serialize()
-    {
-        int frameSize = Marshal.SizeOf(typeof(FrameItem2)) * _frames.Length; 
-        byte[] frameBytes = new byte[frameSize];
-
-        GCHandle handle = GCHandle.Alloc(frameBytes, GCHandleType.Pinned);
-        try
-        {
-            IntPtr ptr = handle.AddrOfPinnedObject();
-            for(int i=0; i < _frames.Length; i++)
-            {
-                Marshal.StructureToPtr(_frames[i], ptr, false);
-                ptr += Marshal.SizeOf(typeof(FrameItem2));
-            }
-        }
-        catch(Exception ex)
-        {
-            System.Console.WriteLine("Exception when serialize: {0}", ex);
-        }
-        finally
-        {
-            handle.Free();
-        }
-
-        int totalSize = sizeof(int) + sizeof(int) + frameSize;
-        byte[] buffer = new byte[totalSize];
-
-        int offset = 0;
-        Buffer.BlockCopy(BitConverter.GetBytes(_width), 0, buffer, offset, sizeof(int));
-        offset += sizeof(int);
-        Buffer.BlockCopy(BitConverter.GetBytes(_height), 0, buffer, offset, sizeof(int));
-        offset += sizeof(int);
-        Buffer.BlockCopy(frameBytes, 0, buffer, offset, frameBytes.Length);
-        offset += Marshal.SizeOf(typeof(FrameItem2)) * _frames.Length;
-
-        return buffer;
-    }
-
-    internal static Frame2 Deserialize(byte[] data)
-    {
-        int offset = 0;
-        int width = BitConverter.ToInt32(data, offset);
-        offset += sizeof(int);
-        int height = BitConverter.ToInt32(data, offset);
-        offset += sizeof(int);
-        
-        int frameItemsLength = (data.Length - offset) / Marshal.SizeOf(typeof(FrameItem2));
-        FrameItem2[] items = new FrameItem2[frameItemsLength];
-        GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-
-        try
-        {
-            
-        }
-
-        // var size = data.Length / Marshal.SizeOf(typeof(FrameItem2));
-        // FrameItem2[] frameItems = new FrameItem2[size];
-        // GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-        // try
-        // {
-        //     IntPtr ptr = handle.AddrOfPinnedObject();
-        //     for(int i=0; i < frameItems.Length; i++)
-        //     {
-        //         frameItems[i] = (FrameItem2)Marshal.PtrToStructure(ptr, typeof(FrameItem2));
-        //         ptr += Marshal.SizeOf(typeof(FrameItem2));
-        //     }
-        // }
-        // catch
-        // {
-        //     System.Console.WriteLine("Exception when deserialize");
-        // }
-        // finally
-        // {
-        //     handle.Free();
-        // }
-    }
 }
 
 interface IXmlInitilizeQuery<T>
@@ -325,12 +252,12 @@ internal interface IFrame2
 
 
 
-internal struct FrameItem2
+public struct FrameItem2
 { 
     private int _x;
     private int _y;
     private int _objectId;
-    internal FrameItem2(int x, int y)
+    public FrameItem2(int x, int y)
     {
         _x = x;
         _y = y;
