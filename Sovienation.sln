@@ -3,23 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "Host\Host.csproj", "{FF7088F4-2454-43A5-A272-BC769A1286BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host", "Host\Host.csproj", "{FF7088F4-2454-43A5-A272-BC769A1286BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCore", "GameCore\GameCore.csproj", "{0B1B16CC-B690-4B26-BA93-D37DD07FC3ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCore", "GameCore\GameCore.csproj", "{0B1B16CC-B690-4B26-BA93-D37DD07FC3ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{89D17448-2B9D-4446-A06A-C18A6BC5BAAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{89D17448-2B9D-4446-A06A-C18A6BC5BAAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persist", "Persist\Persist.csproj", "{1865F0EE-C29F-42DB-AE78-8FDF46B94C22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persist", "Persist\Persist.csproj", "{1865F0EE-C29F-42DB-AE78-8FDF46B94C22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{A2553E00-2DB8-4EEB-AB4E-809DA31E091B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{A2553E00-2DB8-4EEB-AB4E-809DA31E091B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CLI", "CLI\CLI.csproj", "{9FCEFD43-4B77-4553-8876-9738AD8AC222}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FF7088F4-2454-43A5-A272-BC769A1286BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -42,5 +41,12 @@ Global
 		{A2553E00-2DB8-4EEB-AB4E-809DA31E091B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2553E00-2DB8-4EEB-AB4E-809DA31E091B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2553E00-2DB8-4EEB-AB4E-809DA31E091B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FCEFD43-4B77-4553-8876-9738AD8AC222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FCEFD43-4B77-4553-8876-9738AD8AC222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FCEFD43-4B77-4553-8876-9738AD8AC222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FCEFD43-4B77-4553-8876-9738AD8AC222}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
